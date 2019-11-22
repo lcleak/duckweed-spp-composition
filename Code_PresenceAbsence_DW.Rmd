@@ -1,6 +1,8 @@
 ---
 title: "Duckweed Species Composition Presence/Absence"
 output: html_notebook
+author: Lillian Leak
+project: final project for Biostats
 ---
 
 and so it begins.
