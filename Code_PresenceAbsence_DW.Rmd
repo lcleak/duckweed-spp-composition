@@ -1,0 +1,15 @@
+---
+title: "Duckweed Species Composition Presence/Absence"
+output: html_notebook
+---
+
+and so it begins.
+This data is presence/absence predicted by several numeric variables; pH and other water chemistry measures, ; essentially abiotic variables that were measured for each site. 
+
+While in the original data samples are not independent (some are taken from the same pond), I will use the water body worksheet that I made where a random site is selected, per temporal sampling session, for each water body. I don't really have the resources to do spatial awareness (or whatever it's called) analysis. 
+
+Or, for each water body per sampling session, I could take averages of the abiotic variables (eg take average of pH) and then total species richness for each water body and take presence/absence from there. Should talk to Mart about this except he's away rn. 
+
+Or, for this project, I could stick to one water body--like Andover Pond, or Pymatuning, or state gameland 214, or something with interesting variation and at least three species and measure change across time in presence/absence.
+
+I will wait to do presence of species predicting presence of other species for now because that will be too complicated without analyzing abiotic variables first.
