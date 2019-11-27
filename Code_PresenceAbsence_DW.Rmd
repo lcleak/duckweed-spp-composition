@@ -23,15 +23,35 @@ for once the data is all uploaded,
 
 sorting out data
 ```{r}
-attach(X2019Duckweed_PresenceAbsenceData_v1)
+
+library(readxl)
+library(readxl)
+X2019Duckweed_PresenceAbsenceData_v2 <- read_excel("Desktop/2019Duckweed_PresenceAbsenceData_v2.xlsx", na = ".")
+View(X2019Duckweed_PresenceAbsenceData_v2)                                 
+
+attach(X2019Duckweed_PresenceAbsenceData_v2)
 
 #have to make many of these variables numeric
 pH <- as.numeric(pH)
+pH
+length(pH) #something is up with this, saying length(pH)=19??? that's definitely not the case even when not including NA's
+all.pH <- as.numeric(X2019Duckweed_PresenceAbsenceData_v2$pH)
+
 Conductivity <- as.numeric(Conductivity)
 Dissolved_Oxygen <- as.numeric(Dissolved_Oxygen)
 Densiometer <- as.numeric(`Densiometer_(CC %)`)
 LM_cover <- as.character(LM_Cover)
+Water_Body <- as.character(Water_Body)
 
+```
+
+check correlation between quantitative variables
+```{r}
+#data frame of just quantitative variables
+quant_duckweed <- data.frame(all.pH, Dissolved_Oxygen, Conductivity, Water_Temp, Total_Dissolved_Solids, Water_Depth, Benthos_Depth)
+
+#check correlation
+cor(quant_duckweed, use="pairwise.complete.obs")
 ```
 
 
@@ -41,17 +61,16 @@ pH analysis and plot for LM (Lemna minor)
 #dw_presenceabsence <- read.table(X2019Duckweed_PresenceAbsenceData_v1)
 #head(X2019Duckweed_PresenceAbsenceData_v1)
 
-
 #scatterplot of data
-plot(LM_Presence ~ pH)
+plot(LM_Presence ~ all.pH)
 
 #Fit a logistic regression
-LM_presence_pH_Glm <- glm(LM_Presence ~ pH, family = binomial(link = logit))
+LM_presence_pH_Glm <- glm(LM_Presence ~ all.pH, family = binomial(link = logit))
 
 #Add logistic regression curve to scatter plot
 xpts <- seq(0, 14, 
 	length.out = 100)
-ypts <- predict(LM_presence_pH_Glm, newdata = data.frame(pH = xpts), 
+ypts <- predict(LM_presence_pH_Glm, newdata = data.frame(all.pH = xpts), 
 	type = "response")
 lines(xpts, ypts)
 
@@ -74,15 +93,15 @@ anova(LM_presence_pH_Glm, test = "Chi")
 Spirodela presence/absence based on pH
 ```{r}
 #scatterplot of data
-plot(SP_Presence ~ pH)
+plot(SP_Presence ~ all.pH)
 
 #Fit a logistic regression
-SP_presence_pH_Glm <- glm(SP_Presence ~ pH, family = binomial(link = logit))
+SP_presence_pH_Glm <- glm(SP_Presence ~ all.pH, family = binomial(link = logit))
 
 #Add logistic regression curve to scatter plot
 xpts <- seq(0, 14, 
 	length.out = 100)
-ypts <- predict(SP_presence_pH_Glm, newdata = data.frame(pH = xpts), 
+ypts <- predict(SP_presence_pH_Glm, newdata = data.frame(all.pH = xpts), 
 	type = "response")
 lines(xpts, ypts)
 
@@ -91,16 +110,26 @@ lines(xpts, ypts)
 
 
 
-Make model predicting Species Presence/Absence based on many variables
+Make model predicting Species Presence/Absence based on water chemistry
 ```{r}
+attach(X2019Duckweed_PresenceAbsenceData_v1)
+
 #Fit a regression
-LM_presence_pH_Glm <- glm(LM_Presence ~ pH*Conductivity*Dissolved_Oxygen)
-summary(LM_presence_pH_Glm)
+LM_presence_water_Glm <- glm(LM_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
+summary(LM_presence_water_Glm)
 #?glm
 
 #Spirodela polyrhiza
-SP_presence_pH_Glm <- glm(SP_Presence ~ pH*Conductivity*Dissolved_Oxygen)
-summary(SP_presence_pH_Glm)
+SP_presence_water_Glm <- glm(SP_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
+summary(SP_presence_water_Glm)
+
+#Wolffia
+W_presence_water_Glm <- glm(W_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
+summary(W_presence_water_Glm)
+
+#Wolffiella: EG
+EG_presence_water_Glm <- glm(EG_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
+summary(EG_presence_water_Glm)
 
 
 ```
@@ -110,5 +139,27 @@ Andover pond model
 conditional selection by Water_Body==OPRW_1
 ```{r}
 
+detach(X2019Duckweed_PresenceAbsenceData_v2)
+
+Andover <- X2019Duckweed_PresenceAbsenceData_v2[X2019Duckweed_PresenceAbsenceData_v2$Water_Body=="OPRW_1",]
+Andover
+
+Andover.pH <- as.numeric(Andover$pH)
+Andover.pH
+
+attach(Andover)
+Andover_LM_presence_water_Glm <- glm(LM_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+summary(Andover_LM_presence_water_Glm)
+
+Andover_SP_presence_water_Glm <- glm(SP_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+summary(Andover_SP_presence_water_Glm)
+
+Andover_W_presence_water_Glm <- glm(W_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+summary(Andover_W_presence_water_Glm)
+
+#General model
+Andover_spp_richness_glm <- (Spp_Richness ~ Andover.pH*General_Herbivory_Presence*Total_Dissolved_Solids*Sunlight_Exposure)
+summary(Andover_spp_richness_glm)
+Andover_spp_richness_glm
 ```
 
