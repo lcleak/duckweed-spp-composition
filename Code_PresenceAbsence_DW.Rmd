@@ -8,10 +8,107 @@ project: final project for Biostats
 and so it begins.
 This data is presence/absence predicted by several numeric variables; pH and other water chemistry measures, ; essentially abiotic variables that were measured for each site. 
 
-While in the original data samples are not independent (some are taken from the same pond), I will use the water body worksheet that I made where a random site is selected, per temporal sampling session, for each water body. I don't really have the resources to do spatial awareness (or whatever it's called) analysis. 
+While in the original data samples are not independent (some are taken from the same pond), I will use the water body worksheet that I made where a random site is selected, per temporal sampling session, for each water body. I don't really have the resources to do spatial awareness (or whatever it's called) analysis. Each water body has a code, could use that in model?
 
 Or, for each water body per sampling session, I could take averages of the abiotic variables (eg take average of pH) and then total species richness for each water body and take presence/absence from there. Should talk to Mart about this except he's away rn. 
 
 Or, for this project, I could stick to one water body--like Andover Pond, or Pymatuning, or state gameland 214, or something with interesting variation and at least three species and measure change across time in presence/absence.
 
 I will wait to do presence of species predicting presence of other species for now because that will be too complicated without analyzing abiotic variables first.
+
+Data Analysis Plan: Once data is made to be independent as best I can manage, it will be analyzed by logistic regression, eg multiple variables (PCA?) predicting the probability of a species being present or not.
+> look at biostats_week12.Rmd for how to set up logistic regression
+
+for once the data is all uploaded, 
+
+sorting out data
+```{r}
+attach(X2019Duckweed_PresenceAbsenceData_v1)
+
+#have to make many of these variables numeric
+pH <- as.numeric(pH)
+Conductivity <- as.numeric(Conductivity)
+Dissolved_Oxygen <- as.numeric(Dissolved_Oxygen)
+Densiometer <- as.numeric(`Densiometer_(CC %)`)
+LM_cover <- as.character(LM_Cover)
+
+```
+
+
+pH analysis and plot for LM (Lemna minor)
+```{r}
+#read in data
+#dw_presenceabsence <- read.table(X2019Duckweed_PresenceAbsenceData_v1)
+#head(X2019Duckweed_PresenceAbsenceData_v1)
+
+
+#scatterplot of data
+plot(LM_Presence ~ pH)
+
+#Fit a logistic regression
+LM_presence_pH_Glm <- glm(LM_Presence ~ pH, family = binomial(link = logit))
+
+#Add logistic regression curve to scatter plot
+xpts <- seq(0, 14, 
+	length.out = 100)
+ypts <- predict(LM_presence_pH_Glm, newdata = data.frame(pH = xpts), 
+	type = "response")
+lines(xpts, ypts)
+
+#Table of regression coefficients, with parameter estimates
+summary(LM_presence_pH_Glm)
+
+#95% confidence intervals for parameter estimates. It is necessary to load the MASS package first.
+library(MASS)
+confint(LM_presence_pH_Glm)
+
+#Predict probability of presence (mean presence) for a given x-value, 10 pH, including standard error of prediction.
+predict(LM_presence_pH_Glm, newdata = data.frame(pH = 10),
+	type = "response", se.fit = TRUE)
+
+
+#Analysis of deviance table, with a of the null hypothesis of zero slope
+anova(LM_presence_pH_Glm, test = "Chi")
+```
+
+Spirodela presence/absence based on pH
+```{r}
+#scatterplot of data
+plot(SP_Presence ~ pH)
+
+#Fit a logistic regression
+SP_presence_pH_Glm <- glm(SP_Presence ~ pH, family = binomial(link = logit))
+
+#Add logistic regression curve to scatter plot
+xpts <- seq(0, 14, 
+	length.out = 100)
+ypts <- predict(SP_presence_pH_Glm, newdata = data.frame(pH = xpts), 
+	type = "response")
+lines(xpts, ypts)
+
+
+```
+
+
+
+Make model predicting Species Presence/Absence based on many variables
+```{r}
+#Fit a regression
+LM_presence_pH_Glm <- glm(LM_Presence ~ pH*Conductivity*Dissolved_Oxygen)
+summary(LM_presence_pH_Glm)
+#?glm
+
+#Spirodela polyrhiza
+SP_presence_pH_Glm <- glm(SP_Presence ~ pH*Conductivity*Dissolved_Oxygen)
+summary(SP_presence_pH_Glm)
+
+
+```
+
+
+Andover pond model
+conditional selection by Water_Body==OPRW_1
+```{r}
+
+```
+

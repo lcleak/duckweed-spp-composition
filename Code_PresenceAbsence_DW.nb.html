@@ -229,13 +229,177 @@ summary {
 
 <!-- rnb-text-begin -->
 <p>and so it begins. This data is presence/absence predicted by several numeric variables; pH and other water chemistry measures, ; essentially abiotic variables that were measured for each site.</p>
-<p>While in the original data samples are not independent (some are taken from the same pond), I will use the water body worksheet that I made where a random site is selected, per temporal sampling session, for each water body. I don’t really have the resources to do spatial awareness (or whatever it’s called) analysis.</p>
+<p>While in the original data samples are not independent (some are taken from the same pond), I will use the water body worksheet that I made where a random site is selected, per temporal sampling session, for each water body. I don’t really have the resources to do spatial awareness (or whatever it’s called) analysis. Each water body has a code, could use that in model?</p>
 <p>Or, for each water body per sampling session, I could take averages of the abiotic variables (eg take average of pH) and then total species richness for each water body and take presence/absence from there. Should talk to Mart about this except he’s away rn.</p>
 <p>Or, for this project, I could stick to one water body–like Andover Pond, or Pymatuning, or state gameland 214, or something with interesting variation and at least three species and measure change across time in presence/absence.</p>
 <p>I will wait to do presence of species predicting presence of other species for now because that will be too complicated without analyzing abiotic variables first.</p>
+<p>Data Analysis Plan: Once data is made to be independent as best I can manage, it will be analyzed by logistic regression, eg multiple variables (PCA?) predicting the probability of a species being present or not. &gt; look at biostats_week12.Rmd for how to set up logistic regression</p>
+<p>for once the data is all uploaded,</p>
+<p>sorting out data</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXR0YWNoKFgyMDE5RHVja3dlZWRfUHJlc2VuY2VBYnNlbmNlRGF0YV92MSlcbmBgYCJ9 -->
+<pre class="r"><code>attach(X2019Duckweed_PresenceAbsenceData_v1)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgX2J5XyAuR2xvYmFsRW52OlxuXG4gICAgQ29uZHVjdGl2aXR5LCBEaXNzb2x2ZWRfT3h5Z2VuLCBwSFxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIFgyMDE5RHVja3dlZWRfUHJlc2VuY2VBYnNlbmNlRGF0YV92MSAocG9zID0gMyk6XG5cbiAgICBBUF9Db3ZlciwgQVBfUHJlc2VuY2UsIEJlbnRob3NfRGVwdGgsIEJpb2ZpbG1fcHJlc2VudD8sXG4gICAgQ29kZSwgQ29uZHVjdGl2aXR5LCBEZW5zaW9tZXRlcl8oQ0MgJSksXG4gICAgRGlzc29sdmVkX094eWdlbiwgRUdfQ292ZXIsIEVHX1ByZXNlbmNlLFxuICAgIEdlbmVyYWxfSGVyYml2b3J5X1ByZXNlbmNlLCBMTV9Db3ZlciwgTE1fUHJlc2VuY2UsXG4gICAgTFRfQ292ZXIsIExUX1ByZXNlbmNlLCBOdW1iZXJfU2Vzc2lvbl9vcl9TdXJ2ZXlpbmc/LFxuICAgIHBILCBTUF9Db3ZlciwgU1BfUHJlc2VuY2UsIFNwcF9SaWNobmVzcyxcbiAgICBTdW5saWdodF9FeHBvc3VyZSwgVG90YWxfRGlzc29sdmVkX1NvbGlkcywgVHVyYmlkaXR5LFxuICAgIFR5cGVfV2F0ZXJfQm9keSwgV19Db3ZlciwgV19QcmVzZW5jZSwgV2F0ZXJfQm9keSxcbiAgICBXYXRlcl9DbGVhcj0xX011cmt5PTAsIFdhdGVyX0RlcHRoLCBXYXRlcl9Nb3ZlbWVudCxcbiAgICBXYXRlcl9UZW1wXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20gWDIwMTlEdWNrd2VlZF9QcmVzZW5jZUFic2VuY2VEYXRhX3YxIChwb3MgPSA0KTpcblxuICAgIEFQX0NvdmVyLCBBUF9QcmVzZW5jZSwgQmVudGhvc19EZXB0aCwgQmlvZmlsbV9wcmVzZW50PyxcbiAgICBDb2RlLCBDb25kdWN0aXZpdHksIERlbnNpb21ldGVyXyhDQyAlKSxcbiAgICBEaXNzb2x2ZWRfT3h5Z2VuLCBFR19Db3ZlciwgRUdfUHJlc2VuY2UsXG4gICAgR2VuZXJhbF9IZXJiaXZvcnlfUHJlc2VuY2UsIExNX0NvdmVyLCBMTV9QcmVzZW5jZSxcbiAgICBMVF9Db3ZlciwgTFRfUHJlc2VuY2UsIE51bWJlcl9TZXNzaW9uX29yX1N1cnZleWluZz8sXG4gICAgcEgsIFNQX0NvdmVyLCBTUF9QcmVzZW5jZSwgU3BwX1JpY2huZXNzLFxuICAgIFN1bmxpZ2h0X0V4cG9zdXJlLCBUb3RhbF9EaXNzb2x2ZWRfU29saWRzLCBUdXJiaWRpdHksXG4gICAgVHlwZV9XYXRlcl9Cb2R5LCBXX0NvdmVyLCBXX1ByZXNlbmNlLCBXYXRlcl9Cb2R5LFxuICAgIFdhdGVyX0NsZWFyPTFfTXVya3k9MCwgV2F0ZXJfRGVwdGgsIFdhdGVyX01vdmVtZW50LFxuICAgIFdhdGVyX1RlbXBcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSBYMjAxOUR1Y2t3ZWVkX1ByZXNlbmNlQWJzZW5jZURhdGFfdjEgKHBvcyA9IDUpOlxuXG4gICAgQVBfQ292ZXIsIEFQX1ByZXNlbmNlLCBCZW50aG9zX0RlcHRoLCBCaW9maWxtX3ByZXNlbnQ/LFxuICAgIENvZGUsIENvbmR1Y3Rpdml0eSwgRGVuc2lvbWV0ZXJfKENDICUpLFxuICAgIERpc3NvbHZlZF9PeHlnZW4sIEVHX0NvdmVyLCBFR19QcmVzZW5jZSxcbiAgICBHZW5lcmFsX0hlcmJpdm9yeV9QcmVzZW5jZSwgTE1fQ292ZXIsIExNX1ByZXNlbmNlLFxuICAgIExUX0NvdmVyLCBMVF9QcmVzZW5jZSwgTnVtYmVyX1Nlc3Npb25fb3JfU3VydmV5aW5nPyxcbiAgICBwSCwgU1BfQ292ZXIsIFNQX1ByZXNlbmNlLCBTcHBfUmljaG5lc3MsXG4gICAgU3VubGlnaHRfRXhwb3N1cmUsIFRvdGFsX0Rpc3NvbHZlZF9Tb2xpZHMsIFR1cmJpZGl0eSxcbiAgICBUeXBlX1dhdGVyX0JvZHksIFdfQ292ZXIsIFdfUHJlc2VuY2UsIFdhdGVyX0JvZHksXG4gICAgV2F0ZXJfQ2xlYXI9MV9NdXJreT0wLCBXYXRlcl9EZXB0aCwgV2F0ZXJfTW92ZW1lbnQsXG4gICAgV2F0ZXJfVGVtcFxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIFgyMDE5RHVja3dlZWRfUHJlc2VuY2VBYnNlbmNlRGF0YV92MSAocG9zID0gNik6XG5cbiAgICBBUF9Db3ZlciwgQVBfUHJlc2VuY2UsIEJlbnRob3NfRGVwdGgsIEJpb2ZpbG1fcHJlc2VudD8sXG4gICAgQ29kZSwgQ29uZHVjdGl2aXR5LCBEZW5zaW9tZXRlcl8oQ0MgJSksXG4gICAgRGlzc29sdmVkX094eWdlbiwgRUdfQ292ZXIsIEVHX1ByZXNlbmNlLFxuICAgIEdlbmVyYWxfSGVyYml2b3J5X1ByZXNlbmNlLCBMTV9Db3ZlciwgTE1fUHJlc2VuY2UsXG4gICAgTFRfQ292ZXIsIExUX1ByZXNlbmNlLCBOdW1iZXJfU2Vzc2lvbl9vcl9TdXJ2ZXlpbmc/LFxuICAgIHBILCBTUF9Db3ZlciwgU1BfUHJlc2VuY2UsIFNwcF9SaWNobmVzcyxcbiAgICBTdW5saWdodF9FeHBvc3VyZSwgVG90YWxfRGlzc29sdmVkX1NvbGlkcywgVHVyYmlkaXR5LFxuICAgIFR5cGVfV2F0ZXJfQm9keSwgV19Db3ZlciwgV19QcmVzZW5jZSwgV2F0ZXJfQm9keSxcbiAgICBXYXRlcl9DbGVhcj0xX011cmt5PTAsIFdhdGVyX0RlcHRoLCBXYXRlcl9Nb3ZlbWVudCxcbiAgICBXYXRlcl9UZW1wXG4ifQ== -->
+<pre><code>The following objects are masked _by_ .GlobalEnv:
+
+    Conductivity, Dissolved_Oxygen, pH
+
+The following objects are masked from X2019Duckweed_PresenceAbsenceData_v1 (pos = 3):
+
+    AP_Cover, AP_Presence, Benthos_Depth, Biofilm_present?,
+    Code, Conductivity, Densiometer_(CC %),
+    Dissolved_Oxygen, EG_Cover, EG_Presence,
+    General_Herbivory_Presence, LM_Cover, LM_Presence,
+    LT_Cover, LT_Presence, Number_Session_or_Surveying?,
+    pH, SP_Cover, SP_Presence, Spp_Richness,
+    Sunlight_Exposure, Total_Dissolved_Solids, Turbidity,
+    Type_Water_Body, W_Cover, W_Presence, Water_Body,
+    Water_Clear=1_Murky=0, Water_Depth, Water_Movement,
+    Water_Temp
+
+The following objects are masked from X2019Duckweed_PresenceAbsenceData_v1 (pos = 4):
+
+    AP_Cover, AP_Presence, Benthos_Depth, Biofilm_present?,
+    Code, Conductivity, Densiometer_(CC %),
+    Dissolved_Oxygen, EG_Cover, EG_Presence,
+    General_Herbivory_Presence, LM_Cover, LM_Presence,
+    LT_Cover, LT_Presence, Number_Session_or_Surveying?,
+    pH, SP_Cover, SP_Presence, Spp_Richness,
+    Sunlight_Exposure, Total_Dissolved_Solids, Turbidity,
+    Type_Water_Body, W_Cover, W_Presence, Water_Body,
+    Water_Clear=1_Murky=0, Water_Depth, Water_Movement,
+    Water_Temp
+
+The following objects are masked from X2019Duckweed_PresenceAbsenceData_v1 (pos = 5):
+
+    AP_Cover, AP_Presence, Benthos_Depth, Biofilm_present?,
+    Code, Conductivity, Densiometer_(CC %),
+    Dissolved_Oxygen, EG_Cover, EG_Presence,
+    General_Herbivory_Presence, LM_Cover, LM_Presence,
+    LT_Cover, LT_Presence, Number_Session_or_Surveying?,
+    pH, SP_Cover, SP_Presence, Spp_Richness,
+    Sunlight_Exposure, Total_Dissolved_Solids, Turbidity,
+    Type_Water_Body, W_Cover, W_Presence, Water_Body,
+    Water_Clear=1_Murky=0, Water_Depth, Water_Movement,
+    Water_Temp
+
+The following objects are masked from X2019Duckweed_PresenceAbsenceData_v1 (pos = 6):
+
+    AP_Cover, AP_Presence, Benthos_Depth, Biofilm_present?,
+    Code, Conductivity, Densiometer_(CC %),
+    Dissolved_Oxygen, EG_Cover, EG_Presence,
+    General_Herbivory_Presence, LM_Cover, LM_Presence,
+    LT_Cover, LT_Presence, Number_Session_or_Surveying?,
+    pH, SP_Cover, SP_Presence, Spp_Richness,
+    Sunlight_Exposure, Total_Dissolved_Solids, Turbidity,
+    Type_Water_Body, W_Cover, W_Presence, Water_Body,
+    Water_Clear=1_Murky=0, Water_Depth, Water_Movement,
+    Water_Temp</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2hhdmUgdG8gbWFrZSBtYW55IG9mIHRoZXNlIHZhcmlhYmxlcyBudW1lcmljXG5wSCA8LSBhcy5udW1lcmljKHBIKVxuQ29uZHVjdGl2aXR5IDwtIGFzLm51bWVyaWMoQ29uZHVjdGl2aXR5KVxuRGlzc29sdmVkX094eWdlbiA8LSBhcy5udW1lcmljKERpc3NvbHZlZF9PeHlnZW4pXG5EZW5zaW9tZXRlciA8LSBhcy5udW1lcmljKGBEZW5zaW9tZXRlcl8oQ0MgJSlgKVxuYGBgIn0= -->
+<pre class="r"><code>#have to make many of these variables numeric
+pH &lt;- as.numeric(pH)
+Conductivity &lt;- as.numeric(Conductivity)
+Dissolved_Oxygen &lt;- as.numeric(Dissolved_Oxygen)
+Densiometer &lt;- as.numeric(`Densiometer_(CC %)`)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>pH analysis and plot for LM (Lemna minor)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0FuYWx5c2lzIG9mIGRldmlhbmNlIHRhYmxlLCB3aXRoIGEgb2YgdGhlIG51bGwgaHlwb3RoZXNpcyBvZiB6ZXJvIHNsb3BlXG5hbm92YShMTV9wcmVzZW5jZV9wSF9HbG0sIHRlc3QgPSBcIkNoaVwiKVxuXG5gYGAifQ== -->
+<pre class="r"><code>#Analysis of deviance table, with a of the null hypothesis of zero slope
+anova(LM_presence_pH_Glm, test = &quot;Chi&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgRGV2aWFuY2UgVGFibGVcblxuTW9kZWw6IGJpbm9taWFsLCBsaW5rOiBsb2dpdFxuXG5SZXNwb25zZTogTE1fUHJlc2VuY2VcblxuVGVybXMgYWRkZWQgc2VxdWVudGlhbGx5IChmaXJzdCB0byBsYXN0KVxuXG5cbiAgICAgRGYgRGV2aWFuY2UgUmVzaWQuIERmIFJlc2lkLiBEZXYgUHIoPkNoaSlcbk5VTEwgICAgICAgICAgICAgICAgICAgMjE0ICAgICA4MC44ODkgICAgICAgICBcbnBIICAgIDEgICAxLjYyMDMgICAgICAgMjEzICAgICA3OS4yNjggICAgMC4yMDNcbiJ9 -->
+<pre><code>Analysis of Deviance Table
+
+Model: binomial, link: logit
+
+Response: LM_Presence
+
+Terms added sequentially (first to last)
+
+     Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)
+NULL                   214     80.889         
+pH    1   1.6203       213     79.268    0.203</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Spirodela presence/absence based on pH</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NjYXR0ZXJwbG90IG9mIGRhdGFcbnBsb3QoU1BfUHJlc2VuY2UgfiBwSClcblxuI0ZpdCBhIGxvZ2lzdGljIHJlZ3Jlc3Npb25cblNQX3ByZXNlbmNlX3BIX0dsbSA8LSBnbG0oU1BfUHJlc2VuY2UgfiBwSCwgZmFtaWx5ID0gYmlub21pYWwobGluayA9IGxvZ2l0KSlcblxuI0FkZCBsb2dpc3RpYyByZWdyZXNzaW9uIGN1cnZlIHRvIHNjYXR0ZXIgcGxvdFxueHB0cyA8LSBzZXEoMCwgMTQsIFxuXHRsZW5ndGgub3V0ID0gMTAwKVxueXB0cyA8LSBwcmVkaWN0KFNQX3ByZXNlbmNlX3BIX0dsbSwgbmV3ZGF0YSA9IGRhdGEuZnJhbWUocEggPSB4cHRzKSwgXG5cdHR5cGUgPSBcInJlc3BvbnNlXCIpXG5saW5lcyh4cHRzLCB5cHRzKVxuXG5cbmBgYCJ9 -->
+<pre class="r"><code>#scatterplot of data
+plot(SP_Presence ~ pH)
+
+#Fit a logistic regression
+SP_presence_pH_Glm &lt;- glm(SP_Presence ~ pH, family = binomial(link = logit))
+
+#Add logistic regression curve to scatter plot
+xpts &lt;- seq(0, 14, 
+    length.out = 100)
+ypts &lt;- predict(SP_presence_pH_Glm, newdata = data.frame(pH = xpts), 
+    type = &quot;response&quot;)
+lines(xpts, ypts)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Make model predicting Species Presence/Absence based on many variables</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZpdCBhIHJlZ3Jlc3Npb25cblNQX3ByZXNlbmNlX3BIX0dsbSA8LSBnbG0oU1BfUHJlc2VuY2UgfiBwSCpDb25kdWN0aXZpdHkqRGlzc29sdmVkX094eWdlbilcbnN1bW1hcnkoU1BfcHJlc2VuY2VfcEhfR2xtKVxuYGBgIn0= -->
+<pre class="r"><code>#Fit a regression
+SP_presence_pH_Glm &lt;- glm(SP_Presence ~ pH*Conductivity*Dissolved_Oxygen)
+summary(SP_presence_pH_Glm)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxuZ2xtKGZvcm11bGEgPSBTUF9QcmVzZW5jZSB+IHBIICogQ29uZHVjdGl2aXR5ICogRGlzc29sdmVkX094eWdlbilcblxuRGV2aWFuY2UgUmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAgMVEgICBNZWRpYW4gICAgICAgM1EgICAgICBNYXggIFxuLTAuNzE5NyAgLTAuNTY5MCAgIDAuMzkwNiAgIDAuNDE4MCAgIDAuNTA2NCAgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgICAgMi4yNDFlLTAxICA1Ljg4OWUtMDEgICAwLjM4MSAgICAwLjcwNFxucEggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDQuNjU1ZS0wMiAgNy44MzVlLTAyICAgMC41OTQgICAgMC41NTNcbkNvbmR1Y3Rpdml0eSAgICAgICAgICAgICAgICAgICAgICAxLjI4OGUtMDUgIDMuNjE5ZS0wNCAgIDAuMDM2ICAgIDAuOTcyXG5EaXNzb2x2ZWRfT3h5Z2VuICAgICAgICAgICAgICAgICAgMy44NzRlLTAyICA3LjcyN2UtMDIgICAwLjUwMSAgICAwLjYxN1xucEg6Q29uZHVjdGl2aXR5ICAgICAgICAgICAgICAgICAgLTIuMTA0ZS0wNiAgNS4wNjdlLTA1ICAtMC4wNDIgICAgMC45NjdcbnBIOkRpc3NvbHZlZF9PeHlnZW4gICAgICAgICAgICAgIC00LjYwOWUtMDMgIDEuMDA0ZS0wMiAgLTAuNDU5ICAgIDAuNjQ3XG5Db25kdWN0aXZpdHk6RGlzc29sdmVkX094eWdlbiAgICAtNi45MDVlLTA2ICAzLjc2NmUtMDUgIC0wLjE4MyAgICAwLjg1NVxucEg6Q29uZHVjdGl2aXR5OkRpc3NvbHZlZF9PeHlnZW4gIDYuNjc0ZS0wNyAgNS4xNThlLTA2ICAgMC4xMjkgICAgMC44OTdcblxuKERpc3BlcnNpb24gcGFyYW1ldGVyIGZvciBnYXVzc2lhbiBmYW1pbHkgdGFrZW4gdG8gYmUgMC4yNDc2NjI3KVxuXG4gICAgTnVsbCBkZXZpYW5jZTogNDMuMzY3ICBvbiAxNzYgIGRlZ3JlZXMgb2YgZnJlZWRvbVxuUmVzaWR1YWwgZGV2aWFuY2U6IDQxLjg1NSAgb24gMTY5ICBkZWdyZWVzIG9mIGZyZWVkb21cbiAgKDY3IG9ic2VydmF0aW9ucyBkZWxldGVkIGR1ZSB0byBtaXNzaW5nbmVzcylcbkFJQzogMjY1LjA4XG5cbk51bWJlciBvZiBGaXNoZXIgU2NvcmluZyBpdGVyYXRpb25zOiAyXG4ifQ== -->
+<pre><code>
+Call:
+glm(formula = SP_Presence ~ pH * Conductivity * Dissolved_Oxygen)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.7197  -0.5690   0.3906   0.4180   0.5064  
+
+Coefficients:
+                                   Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                       2.241e-01  5.889e-01   0.381    0.704
+pH                                4.655e-02  7.835e-02   0.594    0.553
+Conductivity                      1.288e-05  3.619e-04   0.036    0.972
+Dissolved_Oxygen                  3.874e-02  7.727e-02   0.501    0.617
+pH:Conductivity                  -2.104e-06  5.067e-05  -0.042    0.967
+pH:Dissolved_Oxygen              -4.609e-03  1.004e-02  -0.459    0.647
+Conductivity:Dissolved_Oxygen    -6.905e-06  3.766e-05  -0.183    0.855
+pH:Conductivity:Dissolved_Oxygen  6.674e-07  5.158e-06   0.129    0.897
+
+(Dispersion parameter for gaussian family taken to be 0.2476627)
+
+    Null deviance: 43.367  on 176  degrees of freedom
+Residual deviance: 41.855  on 169  degrees of freedom
+  (67 observations deleted due to missingness)
+AIC: 265.08
+
+Number of Fisher Scoring iterations: 2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuP2dsbVxuYGBgIn0= -->
+<pre class="r"><code>?glm</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Andover pond model conditional selection by Water_Body==OPRW_1</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRHVja3dlZWQgU3BlY2llcyBDb21wb3NpdGlvbiBQcmVzZW5jZS9BYnNlbmNlIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKYXV0aG9yOiBMaWxsaWFuIExlYWsKcHJvamVjdDogZmluYWwgcHJvamVjdCBmb3IgQmlvc3RhdHMKLS0tCgphbmQgc28gaXQgYmVnaW5zLgpUaGlzIGRhdGEgaXMgcHJlc2VuY2UvYWJzZW5jZSBwcmVkaWN0ZWQgYnkgc2V2ZXJhbCBudW1lcmljIHZhcmlhYmxlczsgcEggYW5kIG90aGVyIHdhdGVyIGNoZW1pc3RyeSBtZWFzdXJlcywgOyBlc3NlbnRpYWxseSBhYmlvdGljIHZhcmlhYmxlcyB0aGF0IHdlcmUgbWVhc3VyZWQgZm9yIGVhY2ggc2l0ZS4gCgpXaGlsZSBpbiB0aGUgb3JpZ2luYWwgZGF0YSBzYW1wbGVzIGFyZSBub3QgaW5kZXBlbmRlbnQgKHNvbWUgYXJlIHRha2VuIGZyb20gdGhlIHNhbWUgcG9uZCksIEkgd2lsbCB1c2UgdGhlIHdhdGVyIGJvZHkgd29ya3NoZWV0IHRoYXQgSSBtYWRlIHdoZXJlIGEgcmFuZG9tIHNpdGUgaXMgc2VsZWN0ZWQsIHBlciB0ZW1wb3JhbCBzYW1wbGluZyBzZXNzaW9uLCBmb3IgZWFjaCB3YXRlciBib2R5LiBJIGRvbid0IHJlYWxseSBoYXZlIHRoZSByZXNvdXJjZXMgdG8gZG8gc3BhdGlhbCBhd2FyZW5lc3MgKG9yIHdoYXRldmVyIGl0J3MgY2FsbGVkKSBhbmFseXNpcy4gCgpPciwgZm9yIGVhY2ggd2F0ZXIgYm9keSBwZXIgc2FtcGxpbmcgc2Vzc2lvbiwgSSBjb3VsZCB0YWtlIGF2ZXJhZ2VzIG9mIHRoZSBhYmlvdGljIHZhcmlhYmxlcyAoZWcgdGFrZSBhdmVyYWdlIG9mIHBIKSBhbmQgdGhlbiB0b3RhbCBzcGVjaWVzIHJpY2huZXNzIGZvciBlYWNoIHdhdGVyIGJvZHkgYW5kIHRha2UgcHJlc2VuY2UvYWJzZW5jZSBmcm9tIHRoZXJlLiBTaG91bGQgdGFsayB0byBNYXJ0IGFib3V0IHRoaXMgZXhjZXB0IGhlJ3MgYXdheSBybi4gCgpPciwgZm9yIHRoaXMgcHJvamVjdCwgSSBjb3VsZCBzdGljayB0byBvbmUgd2F0ZXIgYm9keS0tbGlrZSBBbmRvdmVyIFBvbmQsIG9yIFB5bWF0dW5pbmcsIG9yIHN0YXRlIGdhbWVsYW5kIDIxNCwgb3Igc29tZXRoaW5nIHdpdGggaW50ZXJlc3RpbmcgdmFyaWF0aW9uIGFuZCBhdCBsZWFzdCB0aHJlZSBzcGVjaWVzIGFuZCBtZWFzdXJlIGNoYW5nZSBhY3Jvc3MgdGltZSBpbiBwcmVzZW5jZS9hYnNlbmNlLgoKSSB3aWxsIHdhaXQgdG8gZG8gcHJlc2VuY2Ugb2Ygc3BlY2llcyBwcmVkaWN0aW5nIHByZXNlbmNlIG9mIG90aGVyIHNwZWNpZXMgZm9yIG5vdyBiZWNhdXNlIHRoYXQgd2lsbCBiZSB0b28gY29tcGxpY2F0ZWQgd2l0aG91dCBhbmFseXppbmcgYWJpb3RpYyB2YXJpYWJsZXMgZmlyc3Qu</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRHVja3dlZWQgU3BlY2llcyBDb21wb3NpdGlvbiBQcmVzZW5jZS9BYnNlbmNlIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKYXV0aG9yOiBMaWxsaWFuIExlYWsKcHJvamVjdDogZmluYWwgcHJvamVjdCBmb3IgQmlvc3RhdHMKLS0tCgphbmQgc28gaXQgYmVnaW5zLgpUaGlzIGRhdGEgaXMgcHJlc2VuY2UvYWJzZW5jZSBwcmVkaWN0ZWQgYnkgc2V2ZXJhbCBudW1lcmljIHZhcmlhYmxlczsgcEggYW5kIG90aGVyIHdhdGVyIGNoZW1pc3RyeSBtZWFzdXJlcywgOyBlc3NlbnRpYWxseSBhYmlvdGljIHZhcmlhYmxlcyB0aGF0IHdlcmUgbWVhc3VyZWQgZm9yIGVhY2ggc2l0ZS4gCgpXaGlsZSBpbiB0aGUgb3JpZ2luYWwgZGF0YSBzYW1wbGVzIGFyZSBub3QgaW5kZXBlbmRlbnQgKHNvbWUgYXJlIHRha2VuIGZyb20gdGhlIHNhbWUgcG9uZCksIEkgd2lsbCB1c2UgdGhlIHdhdGVyIGJvZHkgd29ya3NoZWV0IHRoYXQgSSBtYWRlIHdoZXJlIGEgcmFuZG9tIHNpdGUgaXMgc2VsZWN0ZWQsIHBlciB0ZW1wb3JhbCBzYW1wbGluZyBzZXNzaW9uLCBmb3IgZWFjaCB3YXRlciBib2R5LiBJIGRvbid0IHJlYWxseSBoYXZlIHRoZSByZXNvdXJjZXMgdG8gZG8gc3BhdGlhbCBhd2FyZW5lc3MgKG9yIHdoYXRldmVyIGl0J3MgY2FsbGVkKSBhbmFseXNpcy4gRWFjaCB3YXRlciBib2R5IGhhcyBhIGNvZGUsIGNvdWxkIHVzZSB0aGF0IGluIG1vZGVsPwoKT3IsIGZvciBlYWNoIHdhdGVyIGJvZHkgcGVyIHNhbXBsaW5nIHNlc3Npb24sIEkgY291bGQgdGFrZSBhdmVyYWdlcyBvZiB0aGUgYWJpb3RpYyB2YXJpYWJsZXMgKGVnIHRha2UgYXZlcmFnZSBvZiBwSCkgYW5kIHRoZW4gdG90YWwgc3BlY2llcyByaWNobmVzcyBmb3IgZWFjaCB3YXRlciBib2R5IGFuZCB0YWtlIHByZXNlbmNlL2Fic2VuY2UgZnJvbSB0aGVyZS4gU2hvdWxkIHRhbGsgdG8gTWFydCBhYm91dCB0aGlzIGV4Y2VwdCBoZSdzIGF3YXkgcm4uIAoKT3IsIGZvciB0aGlzIHByb2plY3QsIEkgY291bGQgc3RpY2sgdG8gb25lIHdhdGVyIGJvZHktLWxpa2UgQW5kb3ZlciBQb25kLCBvciBQeW1hdHVuaW5nLCBvciBzdGF0ZSBnYW1lbGFuZCAyMTQsIG9yIHNvbWV0aGluZyB3aXRoIGludGVyZXN0aW5nIHZhcmlhdGlvbiBhbmQgYXQgbGVhc3QgdGhyZWUgc3BlY2llcyBhbmQgbWVhc3VyZSBjaGFuZ2UgYWNyb3NzIHRpbWUgaW4gcHJlc2VuY2UvYWJzZW5jZS4KCkkgd2lsbCB3YWl0IHRvIGRvIHByZXNlbmNlIG9mIHNwZWNpZXMgcHJlZGljdGluZyBwcmVzZW5jZSBvZiBvdGhlciBzcGVjaWVzIGZvciBub3cgYmVjYXVzZSB0aGF0IHdpbGwgYmUgdG9vIGNvbXBsaWNhdGVkIHdpdGhvdXQgYW5hbHl6aW5nIGFiaW90aWMgdmFyaWFibGVzIGZpcnN0LgoKRGF0YSBBbmFseXNpcyBQbGFuOiBPbmNlIGRhdGEgaXMgbWFkZSB0byBiZSBpbmRlcGVuZGVudCBhcyBiZXN0IEkgY2FuIG1hbmFnZSwgaXQgd2lsbCBiZSBhbmFseXplZCBieSBsb2dpc3RpYyByZWdyZXNzaW9uLCBlZyBtdWx0aXBsZSB2YXJpYWJsZXMgKFBDQT8pIHByZWRpY3RpbmcgdGhlIHByb2JhYmlsaXR5IG9mIGEgc3BlY2llcyBiZWluZyBwcmVzZW50IG9yIG5vdC4KPiBsb29rIGF0IGJpb3N0YXRzX3dlZWsxMi5SbWQgZm9yIGhvdyB0byBzZXQgdXAgbG9naXN0aWMgcmVncmVzc2lvbgoKZm9yIG9uY2UgdGhlIGRhdGEgaXMgYWxsIHVwbG9hZGVkLCAKCnNvcnRpbmcgb3V0IGRhdGEKYGBge3J9CmF0dGFjaChYMjAxOUR1Y2t3ZWVkX1ByZXNlbmNlQWJzZW5jZURhdGFfdjEpCgojaGF2ZSB0byBtYWtlIG1hbnkgb2YgdGhlc2UgdmFyaWFibGVzIG51bWVyaWMKcEggPC0gYXMubnVtZXJpYyhwSCkKQ29uZHVjdGl2aXR5IDwtIGFzLm51bWVyaWMoQ29uZHVjdGl2aXR5KQpEaXNzb2x2ZWRfT3h5Z2VuIDwtIGFzLm51bWVyaWMoRGlzc29sdmVkX094eWdlbikKRGVuc2lvbWV0ZXIgPC0gYXMubnVtZXJpYyhgRGVuc2lvbWV0ZXJfKENDICUpYCkKTE1fY292ZXIgPC0gYXMuY2hhcmFjdGVyKExNX0NvdmVyKQoKYGBgCgoKcEggYW5hbHlzaXMgYW5kIHBsb3QgZm9yIExNIChMZW1uYSBtaW5vcikKYGBge3J9CiNyZWFkIGluIGRhdGEKI2R3X3ByZXNlbmNlYWJzZW5jZSA8LSByZWFkLnRhYmxlKFgyMDE5RHVja3dlZWRfUHJlc2VuY2VBYnNlbmNlRGF0YV92MSkKI2hlYWQoWDIwMTlEdWNrd2VlZF9QcmVzZW5jZUFic2VuY2VEYXRhX3YxKQoKCiNzY2F0dGVycGxvdCBvZiBkYXRhCnBsb3QoTE1fUHJlc2VuY2UgfiBwSCkKCiNGaXQgYSBsb2dpc3RpYyByZWdyZXNzaW9uCkxNX3ByZXNlbmNlX3BIX0dsbSA8LSBnbG0oTE1fUHJlc2VuY2UgfiBwSCwgZmFtaWx5ID0gYmlub21pYWwobGluayA9IGxvZ2l0KSkKCiNBZGQgbG9naXN0aWMgcmVncmVzc2lvbiBjdXJ2ZSB0byBzY2F0dGVyIHBsb3QKeHB0cyA8LSBzZXEoMCwgMTQsIAoJbGVuZ3RoLm91dCA9IDEwMCkKeXB0cyA8LSBwcmVkaWN0KExNX3ByZXNlbmNlX3BIX0dsbSwgbmV3ZGF0YSA9IGRhdGEuZnJhbWUocEggPSB4cHRzKSwgCgl0eXBlID0gInJlc3BvbnNlIikKbGluZXMoeHB0cywgeXB0cykKCiNUYWJsZSBvZiByZWdyZXNzaW9uIGNvZWZmaWNpZW50cywgd2l0aCBwYXJhbWV0ZXIgZXN0aW1hdGVzCnN1bW1hcnkoTE1fcHJlc2VuY2VfcEhfR2xtKQoKIzk1JSBjb25maWRlbmNlIGludGVydmFscyBmb3IgcGFyYW1ldGVyIGVzdGltYXRlcy4gSXQgaXMgbmVjZXNzYXJ5IHRvIGxvYWQgdGhlIE1BU1MgcGFja2FnZSBmaXJzdC4KbGlicmFyeShNQVNTKQpjb25maW50KExNX3ByZXNlbmNlX3BIX0dsbSkKCiNQcmVkaWN0IHByb2JhYmlsaXR5IG9mIHByZXNlbmNlIChtZWFuIHByZXNlbmNlKSBmb3IgYSBnaXZlbiB4LXZhbHVlLCAxMCBwSCwgaW5jbHVkaW5nIHN0YW5kYXJkIGVycm9yIG9mIHByZWRpY3Rpb24uCnByZWRpY3QoTE1fcHJlc2VuY2VfcEhfR2xtLCBuZXdkYXRhID0gZGF0YS5mcmFtZShwSCA9IDEwKSwKCXR5cGUgPSAicmVzcG9uc2UiLCBzZS5maXQgPSBUUlVFKQoKCiNBbmFseXNpcyBvZiBkZXZpYW5jZSB0YWJsZSwgd2l0aCBhIG9mIHRoZSBudWxsIGh5cG90aGVzaXMgb2YgemVybyBzbG9wZQphbm92YShMTV9wcmVzZW5jZV9wSF9HbG0sIHRlc3QgPSAiQ2hpIikKYGBgCgpTcGlyb2RlbGEgcHJlc2VuY2UvYWJzZW5jZSBiYXNlZCBvbiBwSApgYGB7cn0KI3NjYXR0ZXJwbG90IG9mIGRhdGEKcGxvdChTUF9QcmVzZW5jZSB+IHBIKQoKI0ZpdCBhIGxvZ2lzdGljIHJlZ3Jlc3Npb24KU1BfcHJlc2VuY2VfcEhfR2xtIDwtIGdsbShTUF9QcmVzZW5jZSB+IHBILCBmYW1pbHkgPSBiaW5vbWlhbChsaW5rID0gbG9naXQpKQoKI0FkZCBsb2dpc3RpYyByZWdyZXNzaW9uIGN1cnZlIHRvIHNjYXR0ZXIgcGxvdAp4cHRzIDwtIHNlcSgwLCAxNCwgCglsZW5ndGgub3V0ID0gMTAwKQp5cHRzIDwtIHByZWRpY3QoU1BfcHJlc2VuY2VfcEhfR2xtLCBuZXdkYXRhID0gZGF0YS5mcmFtZShwSCA9IHhwdHMpLCAKCXR5cGUgPSAicmVzcG9uc2UiKQpsaW5lcyh4cHRzLCB5cHRzKQoKCmBgYAoKCgpNYWtlIG1vZGVsIHByZWRpY3RpbmcgU3BlY2llcyBQcmVzZW5jZS9BYnNlbmNlIGJhc2VkIG9uIG1hbnkgdmFyaWFibGVzCmBgYHtyfQojRml0IGEgcmVncmVzc2lvbgpMTV9wcmVzZW5jZV9wSF9HbG0gPC0gZ2xtKExNX1ByZXNlbmNlIH4gcEgqQ29uZHVjdGl2aXR5KkRpc3NvbHZlZF9PeHlnZW4pCnN1bW1hcnkoTE1fcHJlc2VuY2VfcEhfR2xtKQojP2dsbQoKI1NwaXJvZGVsYSBwb2x5cmhpemEKU1BfcHJlc2VuY2VfcEhfR2xtIDwtIGdsbShTUF9QcmVzZW5jZSB+IHBIKkNvbmR1Y3Rpdml0eSpEaXNzb2x2ZWRfT3h5Z2VuKQpzdW1tYXJ5KFNQX3ByZXNlbmNlX3BIX0dsbSkKCgpgYGAKCgpBbmRvdmVyIHBvbmQgbW9kZWwKY29uZGl0aW9uYWwgc2VsZWN0aW9uIGJ5IFdhdGVyX0JvZHk9PU9QUldfMQpgYGB7cn0KCmBgYAoK</div>
 
 
 
