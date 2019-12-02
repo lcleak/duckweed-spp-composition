@@ -1,0 +1,37 @@
+
+Call:
+glm(formula = Spp_Richness ~ all.pH + Total_Dissolved_Solids + 
+    Conductivity + Dissolved_Oxygen + Densiometer + General_Herbivory_Presence + 
+    Water_Depth + Benthos_Depth + Type_Water_Body + `Water_Clear=1_Murky=0`, 
+    data = v3_2019Duckweed_PresenceAbsenceData)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-2.79626  -0.43939   0.09311   0.39021   1.59190  
+
+Coefficients:
+                             Estimate Std. Error t value Pr(>|t|)  
+(Intercept)                -2.252e-01  2.285e+00  -0.099   0.9223  
+all.pH                      1.878e-01  2.608e-01   0.720   0.4780  
+Total_Dissolved_Solids     -7.107e-03  2.979e-03  -2.385   0.0246 *
+Conductivity               -1.049e-05  5.842e-06  -1.795   0.0842 .
+Dissolved_Oxygen            9.166e-02  6.329e-02   1.448   0.1595  
+Densiometer                 5.077e-03  6.137e-03   0.827   0.4156  
+General_Herbivory_Presence  6.710e-01  5.142e-01   1.305   0.2033  
+Water_Depth                 3.043e-02  2.829e-02   1.075   0.2921  
+Benthos_Depth              -2.806e-02  2.138e-02  -1.313   0.2008  
+Type_Water_BodyPond         8.010e-01  1.278e+00   0.627   0.5364  
+Type_Water_BodyWetland      5.239e-01  1.127e+00   0.465   0.6458  
+`Water_Clear=1_Murky=0`     9.847e-01  4.442e-01   2.217   0.0356 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 0.99332)
+
+    Null deviance: 50.763  on 37  degrees of freedom
+Residual deviance: 25.826  on 26  degrees of freedom
+  (206 observations deleted due to missingness)
+AIC: 119.16
+
+Number of Fisher Scoring iterations: 2
+

@@ -21,21 +21,22 @@ Data Analysis Plan: Once data is made to be independent as best I can manage, it
 
 for once the data is all uploaded, 
 
+have no idea what is up with pH literally at all, it's not working and in the past it has been found to be nonsignificant anyways, so I'm just gonna disregard it. :)))) it could be something with the NAs and whatever's happening with Andover, so. 
+
 sorting out data
 ```{r}
 
-library(readxl)
-library(readxl)
-X2019Duckweed_PresenceAbsenceData_v2 <- read_excel("Desktop/2019Duckweed_PresenceAbsenceData_v2.xlsx", na = ".")
-View(X2019Duckweed_PresenceAbsenceData_v2)                                 
+# library(readxl)
+# X2019Duckweed_PresenceAbsenceData_v2 <- read_excel("Desktop/2019Duckweed_PresenceAbsenceData_v2.xlsx", na = ".")
+# View(X2019Duckweed_PresenceAbsenceData_v2)                                 
 
-attach(X2019Duckweed_PresenceAbsenceData_v2)
+attach(v3_2019Duckweed_PresenceAbsenceData)
 
 #have to make many of these variables numeric
-pH <- as.numeric(pH)
+pH <- as.numeric(v3_2019Duckweed_PresenceAbsenceData$pH)
 pH
 length(pH) #something is up with this, saying length(pH)=19??? that's definitely not the case even when not including NA's
-all.pH <- as.numeric(X2019Duckweed_PresenceAbsenceData_v2$pH)
+all.pH <- as.numeric(v3_2019Duckweed_PresenceAbsenceData$pH)
 
 Conductivity <- as.numeric(Conductivity)
 Dissolved_Oxygen <- as.numeric(Dissolved_Oxygen)
@@ -50,19 +51,52 @@ check correlation between quantitative variables
 #data frame of just quantitative variables
 quant_duckweed <- data.frame(all.pH, Dissolved_Oxygen, Conductivity, Water_Temp, Total_Dissolved_Solids, Water_Depth, Benthos_Depth)
 
+sink("duckweed-correlation-analysis-output.txt")
 #check correlation
-cor(quant_duckweed, use="pairwise.complete.obs")
+correlationduckweedtable <- cor(quant_duckweed, use="pairwise.complete.obs")
+correlationduckweedtable
+
+#print results and save... need to figure this out :/
+#run the test and save the results of the test as a text file
+
+write.table(correlationduckweedtable, file="correlationduckweedtable.txt", append=F, sep=" ", dec=".", row.names=T, col.names=T)
+
+sink()
+
+#append to the file by 
+sink('duckweed-analysis-output.txt', append=T)
+#put in stuff
+sink()
 ```
 
 
-pH analysis and plot for LM (Lemna minor)
+check correlation for Densiometer and Sunlight Exposure by... how??? just use densiometer and don't bother
+```{r}
+
+Sunlight_Glm <- lm(Densiometer, Sunlight_Exposure)
+summary(Sunlight_Glm)
+
+Densiometer <- as.numeric(`Densiometer_(CC %)`)
+boxplot(Densiometer)
+?boxplot
+
+```
+
+
+
+
+
+
+logistic regression pH analysis and plot for LM (Lemna minor)
 ```{r}
 #read in data
 #dw_presenceabsence <- read.table(X2019Duckweed_PresenceAbsenceData_v1)
 #head(X2019Duckweed_PresenceAbsenceData_v1)
 
+png(filename='LM_presence_pH_logisticregression.png')
+
 #scatterplot of data
-plot(LM_Presence ~ all.pH)
+plot(LM_Presence ~ all.pH, xlab="pH")
 
 #Fit a logistic regression
 LM_presence_pH_Glm <- glm(LM_Presence ~ all.pH, family = binomial(link = logit))
@@ -74,24 +108,32 @@ ypts <- predict(LM_presence_pH_Glm, newdata = data.frame(all.pH = xpts),
 	type = "response")
 lines(xpts, ypts)
 
-#Table of regression coefficients, with parameter estimates
+#save the plot
+dev.off()
+
+sink("duckweed-LM-pH-logisticregression-analysis-output.txt")
+
+#Table of regression coefficients, with parameter estimates. save this
 summary(LM_presence_pH_Glm)
+sink()
+
 
 #95% confidence intervals for parameter estimates. It is necessary to load the MASS package first.
-library(MASS)
-confint(LM_presence_pH_Glm)
+#library(MASS)
+#confint(LM_presence_pH_Glm)
 
 #Predict probability of presence (mean presence) for a given x-value, 10 pH, including standard error of prediction.
-predict(LM_presence_pH_Glm, newdata = data.frame(pH = 10),
-	type = "response", se.fit = TRUE)
-
+#predict(LM_presence_pH_Glm, newdata = data.frame(pH = 10), type = "response", se.fit = TRUE)
 
 #Analysis of deviance table, with a of the null hypothesis of zero slope
-anova(LM_presence_pH_Glm, test = "Chi")
+#anova(LM_presence_pH_Glm, test = "Chi")
+
 ```
 
 Spirodela presence/absence based on pH
 ```{r}
+png(filename='SP_presence_pH_logisticregression.png')
+
 #scatterplot of data
 plot(SP_Presence ~ all.pH)
 
@@ -105,19 +147,18 @@ ypts <- predict(SP_presence_pH_Glm, newdata = data.frame(all.pH = xpts),
 	type = "response")
 lines(xpts, ypts)
 
+dev.off()
 
 ```
 
 
 
-Make model predicting Species Presence/Absence based on water chemistry
+Make model predicting Species Presence/Absence based on water chemistry alone
 ```{r}
-attach(X2019Duckweed_PresenceAbsenceData_v1)
 
-#Fit a regression
+#Fit a regression for LM
 LM_presence_water_Glm <- glm(LM_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
 summary(LM_presence_water_Glm)
-#?glm
 
 #Spirodela polyrhiza
 SP_presence_water_Glm <- glm(SP_Presence ~ all.pH*Conductivity*Dissolved_Oxygen)
@@ -139,16 +180,13 @@ Andover pond model
 conditional selection by Water_Body==OPRW_1
 ```{r}
 
-detach(X2019Duckweed_PresenceAbsenceData_v2)
-
-Andover <- X2019Duckweed_PresenceAbsenceData_v2[X2019Duckweed_PresenceAbsenceData_v2$Water_Body=="OPRW_1",]
+Andover <- v3_2019Duckweed_PresenceAbsenceData[v3_2019Duckweed_PresenceAbsenceData$Water_Body=="OPRW_1",]
 Andover
 
 Andover.pH <- as.numeric(Andover$pH)
 Andover.pH
 
-attach(Andover)
-Andover_LM_presence_water_Glm <- glm(LM_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+Andover_LM_presence_water_Glm <- glm(LM_Presence ~ Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
 summary(Andover_LM_presence_water_Glm)
 
 Andover_SP_presence_water_Glm <- glm(SP_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
@@ -157,9 +195,80 @@ summary(Andover_SP_presence_water_Glm)
 Andover_W_presence_water_Glm <- glm(W_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
 summary(Andover_W_presence_water_Glm)
 
+Andover_LT_presence_water_Glm <- glm(LT_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+summary(Andover_LT_presence_water_Glm)
+
+Andover_EG_presence_water_Glm <- glm(EG_Presence ~ Andover.pH*Total_Dissolved_Solids*Conductivity*Dissolved_Oxygen, data=Andover)
+summary(Andover_EG_presence_water_Glm)
+
 #General model
 Andover_spp_richness_glm <- (Spp_Richness ~ Andover.pH*General_Herbivory_Presence*Total_Dissolved_Solids*Sunlight_Exposure)
 summary(Andover_spp_richness_glm)
 Andover_spp_richness_glm
+
+#linear model for spp richness
+Andover_spp_Regression <- lm(Spp_Richness ~ Andover.pH*General_Herbivory_Presence*Total_Dissolved_Solids*Sunlight_Exposure, data = Andover)
+summary(Andover_spp_Regression)
 ```
+
+
+
+
+ok now for independence of water bodies. control by the water body code
+```{r}
+
+#water chemistry model. ok inserting Water_Body is not working :/ too much 
+sink(filename='duckweed-spp-richness-waterchem-glm.txt')
+Species_Richness_Glm <- glm(Spp_Richness ~ all.pH+Total_Dissolved_Solids+Conductivity+Dissolved_Oxygen, data=v3_2019Duckweed_PresenceAbsenceData)
+summary(Species_Richness_Glm)
+sink()
+
+#herbivory predicting
+sink('duckweed-spp-richness-herbivory-glm.txt')
+Spp_Richness_Herbivory_Glm <- glm(Spp_Richness ~ Herbivory_Mining*Herbivory_Chewing*Herbivory_Piercing*Herbivory_Scraping, data=v3_2019Duckweed_PresenceAbsenceData)
+summary(Spp_Richness_Herbivory_Glm)
+sink()
+
+
+#everything that's not obviously correlated that is actually working;
+sink('duckweed-spp-richness-full-glm.txt')
+Species_Richness_full_Glm <- glm(Spp_Richness ~ all.pH+Total_Dissolved_Solids+Conductivity+Dissolved_Oxygen+Densiometer+General_Herbivory_Presence+Water_Depth+Benthos_Depth+Type_Water_Body+`Water_Clear=1_Murky=0`, data=v3_2019Duckweed_PresenceAbsenceData)
+summary(Species_Richness_full_Glm)
+sink()
+
+#ok, need to ask him about creating plots for all these variables. otherwise, do interaction plots when analyzing two x-variables. 
+```
+
+creating plots
+```{r}
+png(filename='duckweed-twovar-spp-richness-plots.txt')
+
+#for water depth and benthos depth, two continuous var so scatterplot
+
+
+#for pH (ok I wish I could combine all water chemistry into a PCA) and type of water body predicting species richness
+spp_richness_pH_typewaterbody <- glm(Spp_Richness ~ all.pH*Type_Water_Body, data=v3_2019Duckweed_PresenceAbsenceData)
+
+interaction.plot(v3_2019Duckweed_PresenceAbsenceData$all.pH, v3_2019Duckweed_PresenceAbsenceData$Type_Water_Body, 
+	response = predict(spp_richness_pH_typewaterbody), ylim = range(v3_2019Duckweed_PresenceAbsenceData$Spp_Richness),
+	trace.label = "Block", las = 1, na.rm=T) #ok need to remove missing values here. keeps saying arguments need to be the same length
+?interaction.plot
+points(v3_2019Duckweed_PresenceAbsenceData$all.pH, v3_2019Duckweed_PresenceAbsenceData$Spp_Richness, 
+	pch = as.numeric(v3_2019Duckweed_PresenceAbsenceData$Type_Water_Body))
+
+
+spp_richness_hydrology <- glm(Spp_Richness ~ Benthos_Depth*Water_Depth, data=v3_2019Duckweed_PresenceAbsenceData)
+interaction.plot(Benthos_Depth, pH, response = predict(spp_richness_hydrology), 
+	ylim = range(v3_2019Duckweed_PresenceAbsenceData$Spp_Richness), trace.label = "Species Richness", las = 1,
+	ylab = "Species Richness", xlab = "Herbivore treatment")
+adjustAmount = 0.05
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) + adjustAmount), 
+	data = subset(algae, height == "low"))
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) - adjustAmount), 
+	data = subset(algae, height == "mid"), pch = 16)
+
+
+dev.off()
+```
+
 

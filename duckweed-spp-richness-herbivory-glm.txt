@@ -1,0 +1,107 @@
+
+Call:
+glm(formula = Spp_Richness ~ Herbivory_Mining * Herbivory_Chewing * 
+    Herbivory_Piercing * Herbivory_Scraping, data = v3_2019Duckweed_PresenceAbsenceData)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3668  -0.3990   0.0000   0.6171   2.6225  
+
+Coefficients: (6 not defined because of singularities)
+                                                                         Estimate
+(Intercept)                                                               2.36682
+Herbivory_Mining                                                          0.48875
+Herbivory_Chewing                                                         0.51161
+Herbivory_Piercing                                                        0.01073
+Herbivory_Scraping                                                        0.92207
+Herbivory_Mining:Herbivory_Chewing                                        0.02462
+Herbivory_Mining:Herbivory_Piercing                                      -0.04284
+Herbivory_Chewing:Herbivory_Piercing                                     -0.07299
+Herbivory_Mining:Herbivory_Scraping                                      -0.31387
+Herbivory_Chewing:Herbivory_Scraping                                           NA
+Herbivory_Piercing:Herbivory_Scraping                                    -0.69977
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing                          NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Scraping                          NA
+Herbivory_Mining:Herbivory_Piercing:Herbivory_Scraping                         NA
+Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping                        NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping       NA
+                                                                         Std. Error
+(Intercept)                                                                 0.18709
+Herbivory_Mining                                                            0.57401
+Herbivory_Chewing                                                           0.42635
+Herbivory_Piercing                                                          0.09158
+Herbivory_Scraping                                                          0.49507
+Herbivory_Mining:Herbivory_Chewing                                          1.83704
+Herbivory_Mining:Herbivory_Piercing                                         0.20174
+Herbivory_Chewing:Herbivory_Piercing                                        0.18820
+Herbivory_Mining:Herbivory_Scraping                                         1.19351
+Herbivory_Chewing:Herbivory_Scraping                                             NA
+Herbivory_Piercing:Herbivory_Scraping                                       0.41699
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing                            NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Scraping                            NA
+Herbivory_Mining:Herbivory_Piercing:Herbivory_Scraping                           NA
+Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping                          NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping         NA
+                                                                         t value
+(Intercept)                                                               12.651
+Herbivory_Mining                                                           0.851
+Herbivory_Chewing                                                          1.200
+Herbivory_Piercing                                                         0.117
+Herbivory_Scraping                                                         1.862
+Herbivory_Mining:Herbivory_Chewing                                         0.013
+Herbivory_Mining:Herbivory_Piercing                                       -0.212
+Herbivory_Chewing:Herbivory_Piercing                                      -0.388
+Herbivory_Mining:Herbivory_Scraping                                       -0.263
+Herbivory_Chewing:Herbivory_Scraping                                          NA
+Herbivory_Piercing:Herbivory_Scraping                                     -1.678
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing                         NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Scraping                         NA
+Herbivory_Mining:Herbivory_Piercing:Herbivory_Scraping                        NA
+Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping                       NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping      NA
+                                                                         Pr(>|t|)
+(Intercept)                                                                <2e-16
+Herbivory_Mining                                                           0.3966
+Herbivory_Chewing                                                          0.2331
+Herbivory_Piercing                                                         0.9070
+Herbivory_Scraping                                                         0.0656
+Herbivory_Mining:Herbivory_Chewing                                         0.9893
+Herbivory_Mining:Herbivory_Piercing                                        0.8323
+Herbivory_Chewing:Herbivory_Piercing                                       0.6990
+Herbivory_Mining:Herbivory_Scraping                                        0.7931
+Herbivory_Chewing:Herbivory_Scraping                                           NA
+Herbivory_Piercing:Herbivory_Scraping                                      0.0965
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing                          NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Scraping                          NA
+Herbivory_Mining:Herbivory_Piercing:Herbivory_Scraping                         NA
+Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping                        NA
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping       NA
+                                                                            
+(Intercept)                                                              ***
+Herbivory_Mining                                                            
+Herbivory_Chewing                                                           
+Herbivory_Piercing                                                          
+Herbivory_Scraping                                                       .  
+Herbivory_Mining:Herbivory_Chewing                                          
+Herbivory_Mining:Herbivory_Piercing                                         
+Herbivory_Chewing:Herbivory_Piercing                                        
+Herbivory_Mining:Herbivory_Scraping                                         
+Herbivory_Chewing:Herbivory_Scraping                                        
+Herbivory_Piercing:Herbivory_Scraping                                    .  
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing                       
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Scraping                       
+Herbivory_Mining:Herbivory_Piercing:Herbivory_Scraping                      
+Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping                     
+Herbivory_Mining:Herbivory_Chewing:Herbivory_Piercing:Herbivory_Scraping    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 1.1642)
+
+    Null deviance: 124.73  on 106  degrees of freedom
+Residual deviance: 112.93  on  97  degrees of freedom
+  (137 observations deleted due to missingness)
+AIC: 331.42
+
+Number of Fisher Scoring iterations: 2
+

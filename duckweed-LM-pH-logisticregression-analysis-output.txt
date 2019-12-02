@@ -1,0 +1,22 @@
+
+Call:
+glm(formula = LM_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.6181   0.2710   0.3001   0.3229   0.6941  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.7391     2.0849   0.354    0.723
+all.pH        0.3120     0.2868   1.088    0.277
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 80.984  on 215  degrees of freedom
+Residual deviance: 79.940  on 214  degrees of freedom
+  (28 observations deleted due to missingness)
+AIC: 83.94
+
+Number of Fisher Scoring iterations: 6
+
