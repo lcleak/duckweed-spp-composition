@@ -1,0 +1,326 @@
+
+Call:
+glm(formula = LM_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.6181   0.2710   0.3001   0.3229   0.6941  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.7391     2.0849   0.354    0.723
+all.pH        0.3120     0.2868   1.088    0.277
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 80.984  on 215  degrees of freedom
+Residual deviance: 79.940  on 214  degrees of freedom
+  (28 observations deleted due to missingness)
+AIC: 83.94
+
+Number of Fisher Scoring iterations: 6
+
+
+Call:
+glm(formula = SP_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.475  -1.314   1.003   1.042   1.251  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept) -0.33475    1.10061  -0.304    0.761
+all.pH       0.09109    0.14657   0.621    0.534
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 294.49  on 216  degrees of freedom
+Residual deviance: 294.10  on 215  degrees of freedom
+  (27 observations deleted due to missingness)
+AIC: 298.1
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = W_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.6564  -1.5141   0.8413   0.8609   0.9325  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.2934     1.1648   0.252    0.801
+all.pH        0.0708     0.1553   0.456    0.648
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 265.90  on 215  degrees of freedom
+Residual deviance: 265.69  on 214  degrees of freedom
+  (28 observations deleted due to missingness)
+AIC: 269.69
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = EG_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.4503  -0.3442  -0.3361  -0.3246   2.4810  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -2.0451     2.2335  -0.916    0.360
+all.pH       -0.1069     0.3002  -0.356    0.722
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 92.804  on 216  degrees of freedom
+Residual deviance: 92.681  on 215  degrees of freedom
+  (27 observations deleted due to missingness)
+AIC: 96.681
+
+Number of Fisher Scoring iterations: 5
+
+
+Call:
+glm(formula = LM_Presence ~ Water_Depth, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.8267   0.1928   0.2363   0.2956   1.0057  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  4.32363    0.64398   6.714 1.89e-11 ***
+Water_Depth -0.08678    0.03115  -2.786  0.00533 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 82.269  on 229  degrees of freedom
+Residual deviance: 75.053  on 228  degrees of freedom
+  (14 observations deleted due to missingness)
+AIC: 79.053
+
+Number of Fisher Scoring iterations: 6
+
+
+Call:
+glm(formula = SP_Presence ~ Water_Depth, family = binomial(link = logit))
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.328  -1.272   1.056   1.085   1.103  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept) 0.176853   0.220551   0.802    0.423
+Water_Depth 0.005302   0.016155   0.328    0.743
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 317.07  on 230  degrees of freedom
+Residual deviance: 316.96  on 229  degrees of freedom
+  (13 observations deleted due to missingness)
+AIC: 320.96
+
+Number of Fisher Scoring iterations: 3
+
+
+Call:
+glm(formula = W_Presence ~ Water_Depth, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7585  -1.4095   0.8540   0.9304   1.0029  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)  
+(Intercept)  0.42534    0.23399   1.818   0.0691 .
+Water_Depth  0.02638    0.01813   1.455   0.1455  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 291.86  on 229  degrees of freedom
+Residual deviance: 289.64  on 228  degrees of freedom
+  (14 observations deleted due to missingness)
+AIC: 293.64
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = EG_Presence ~ Water_Depth, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.4616  -0.4012  -0.3482  -0.2870   2.5393  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -2.18542    0.45456  -4.808 1.53e-06 ***
+Water_Depth -0.05871    0.04398  -1.335    0.182    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 105.63  on 230  degrees of freedom
+Residual deviance: 103.47  on 229  degrees of freedom
+  (13 observations deleted due to missingness)
+AIC: 107.47
+
+Number of Fisher Scoring iterations: 6
+
+
+Call:
+glm(formula = LT_Presence ~ Water_Depth, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.7729  -0.5362  -0.5023  -0.4760   2.1244  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -2.19668    0.33347  -6.587 4.48e-11 ***
+Water_Depth  0.02536    0.02195   1.156    0.248    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 178.40  on 230  degrees of freedom
+Residual deviance: 177.12  on 229  degrees of freedom
+  (13 observations deleted due to missingness)
+AIC: 181.12
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = LT_Presence ~ Total_Dissolved_Solids, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.1793  -0.6030  -0.3629  -0.1528   2.2562  
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)   
+(Intercept)             0.123083   0.584109   0.211  0.83311   
+Total_Dissolved_Solids -0.019448   0.006517  -2.984  0.00285 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 73.699  on 87  degrees of freedom
+Residual deviance: 60.255  on 86  degrees of freedom
+  (156 observations deleted due to missingness)
+AIC: 64.255
+
+Number of Fisher Scoring iterations: 6
+
+
+Call:
+glm(formula = SP_Presence ~ Total_Dissolved_Solids, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.5688  -1.3782   0.8774   0.9599   1.1250  
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)   
+(Intercept)             0.910414   0.349341   2.606  0.00916 **
+Total_Dissolved_Solids -0.002807   0.001956  -1.435  0.15134   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 116.44  on 87  degrees of freedom
+Residual deviance: 113.61  on 86  degrees of freedom
+  (156 observations deleted due to missingness)
+AIC: 117.61
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = W_Presence ~ Total_Dissolved_Solids, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.9268   0.5900   0.6567   0.7219   0.8772  
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)    
+(Intercept)             1.688903   0.385940   4.376 1.21e-05 ***
+Total_Dissolved_Solids -0.003149   0.001884  -1.671   0.0946 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 93.810  on 86  degrees of freedom
+Residual deviance: 90.154  on 85  degrees of freedom
+  (157 observations deleted due to missingness)
+AIC: 94.154
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
+glm(formula = EG_Presence ~ Total_Dissolved_Solids, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.1523  -0.4648  -0.2584  -0.1065   2.5639  
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)   
+(Intercept)            -0.039602   0.650701  -0.061  0.95147   
+Total_Dissolved_Solids -0.024496   0.008605  -2.847  0.00442 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 58.088  on 87  degrees of freedom
+Residual deviance: 44.911  on 86  degrees of freedom
+  (156 observations deleted due to missingness)
+AIC: 48.911
+
+Number of Fisher Scoring iterations: 7
+
+
+Call:
+glm(formula = LT_Presence ~ Total_Dissolved_Solids, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.1793  -0.6030  -0.3629  -0.1528   2.2562  
+
+Coefficients:
+                        Estimate Std. Error z value Pr(>|z|)   
+(Intercept)             0.123083   0.584109   0.211  0.83311   
+Total_Dissolved_Solids -0.019448   0.006517  -2.984  0.00285 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 73.699  on 87  degrees of freedom
+Residual deviance: 60.255  on 86  degrees of freedom
+  (156 observations deleted due to missingness)
+AIC: 64.255
+
+Number of Fisher Scoring iterations: 6
+
