@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "1757504797",
     "id" : "1B920133",
     "lastKnownWriteTime" : 1575581898,
     "last_content_update" : 1575581898557,
     "path" : "~/Desktop/Biostats_FinalAssignment/duckweed-spp-composition/Biostats_Final_Script.R",
     "project_path" : "Biostats_Final_Script.R",
     "properties" : {
-        "cursorPosition" : "37,17",
-        "scrollLine" : "32"
+        "cursorPosition" : "10,25",
+        "scrollLine" : "0"
     },
     "relative_order" : 1,
     "source_on_save" : false,
