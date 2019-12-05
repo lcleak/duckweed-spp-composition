@@ -88,6 +88,28 @@ Number of Fisher Scoring iterations: 5
 
 
 Call:
+glm(formula = LT_Presence ~ all.pH, family = binomial(link = logit))
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.8792  -0.5413  -0.5112  -0.4766   2.1838  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)  -0.3785     1.4921  -0.254    0.800
+all.pH       -0.2071     0.2018  -1.026    0.305
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 166.89  on 216  degrees of freedom
+Residual deviance: 165.88  on 215  degrees of freedom
+  (27 observations deleted due to missingness)
+AIC: 169.88
+
+Number of Fisher Scoring iterations: 4
+
+
+Call:
 glm(formula = LM_Presence ~ Water_Depth, family = binomial(link = logit))
 
 Deviance Residuals: 
@@ -99,7 +121,8 @@ Coefficients:
 (Intercept)  4.32363    0.64398   6.714 1.89e-11 ***
 Water_Depth -0.08678    0.03115  -2.786  0.00533 ** 
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -145,7 +168,8 @@ Coefficients:
 (Intercept)  0.42534    0.23399   1.818   0.0691 .
 Water_Depth  0.02638    0.01813   1.455   0.1455  
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -169,7 +193,8 @@ Coefficients:
 (Intercept) -2.18542    0.45456  -4.808 1.53e-06 ***
 Water_Depth -0.05871    0.04398  -1.335    0.182    
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -193,7 +218,8 @@ Coefficients:
 (Intercept) -2.19668    0.33347  -6.587 4.48e-11 ***
 Water_Depth  0.02536    0.02195   1.156    0.248    
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -213,11 +239,15 @@ Deviance Residuals:
 -1.1793  -0.6030  -0.3629  -0.1528   2.2562  
 
 Coefficients:
-                        Estimate Std. Error z value Pr(>|z|)   
-(Intercept)             0.123083   0.584109   0.211  0.83311   
-Total_Dissolved_Solids -0.019448   0.006517  -2.984  0.00285 **
+                        Estimate Std. Error z value
+(Intercept)             0.123083   0.584109   0.211
+Total_Dissolved_Solids -0.019448   0.006517  -2.984
+                       Pr(>|z|)   
+(Intercept)             0.83311   
+Total_Dissolved_Solids  0.00285 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -237,11 +267,15 @@ Deviance Residuals:
 -1.5688  -1.3782   0.8774   0.9599   1.1250  
 
 Coefficients:
-                        Estimate Std. Error z value Pr(>|z|)   
-(Intercept)             0.910414   0.349341   2.606  0.00916 **
-Total_Dissolved_Solids -0.002807   0.001956  -1.435  0.15134   
+                        Estimate Std. Error z value
+(Intercept)             0.910414   0.349341   2.606
+Total_Dissolved_Solids -0.002807   0.001956  -1.435
+                       Pr(>|z|)   
+(Intercept)             0.00916 **
+Total_Dissolved_Solids  0.15134   
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -261,11 +295,15 @@ Deviance Residuals:
 -1.9268   0.5900   0.6567   0.7219   0.8772  
 
 Coefficients:
-                        Estimate Std. Error z value Pr(>|z|)    
-(Intercept)             1.688903   0.385940   4.376 1.21e-05 ***
-Total_Dissolved_Solids -0.003149   0.001884  -1.671   0.0946 .  
+                        Estimate Std. Error z value
+(Intercept)             1.688903   0.385940   4.376
+Total_Dissolved_Solids -0.003149   0.001884  -1.671
+                       Pr(>|z|)    
+(Intercept)            1.21e-05 ***
+Total_Dissolved_Solids   0.0946 .  
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -285,11 +323,15 @@ Deviance Residuals:
 -1.1523  -0.4648  -0.2584  -0.1065   2.5639  
 
 Coefficients:
-                        Estimate Std. Error z value Pr(>|z|)   
-(Intercept)            -0.039602   0.650701  -0.061  0.95147   
-Total_Dissolved_Solids -0.024496   0.008605  -2.847  0.00442 **
+                        Estimate Std. Error z value
+(Intercept)            -0.039602   0.650701  -0.061
+Total_Dissolved_Solids -0.024496   0.008605  -2.847
+                       Pr(>|z|)   
+(Intercept)             0.95147   
+Total_Dissolved_Solids  0.00442 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
@@ -309,11 +351,15 @@ Deviance Residuals:
 -1.1793  -0.6030  -0.3629  -0.1528   2.2562  
 
 Coefficients:
-                        Estimate Std. Error z value Pr(>|z|)   
-(Intercept)             0.123083   0.584109   0.211  0.83311   
-Total_Dissolved_Solids -0.019448   0.006517  -2.984  0.00285 **
+                        Estimate Std. Error z value
+(Intercept)             0.123083   0.584109   0.211
+Total_Dissolved_Solids -0.019448   0.006517  -2.984
+                       Pr(>|z|)   
+(Intercept)             0.83311   
+Total_Dissolved_Solids  0.00285 **
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
